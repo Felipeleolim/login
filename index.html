@@ -95,12 +95,21 @@
             font-size: 1.2em;
             color: #FFC107;
         }
+        .shuffle-btn {
+            background-color: #4CAF50;
+            margin-bottom: 20px;
+        }
+        .shuffle-btn:hover {
+            background-color: #45a049;
+        }
     </style>
 </head>
 <body>
     <div class="container" id="quizContainer">
         <h1>QUIZ ULTIMATE DE NARUTO</h1>
         <div class="progress">Questão 1 de 50</div>
+        
+        <button id="shuffleBtn" class="shuffle-btn">EMBARALHAR PERGUNTAS</button>
         
         <div id="questionsContainer">
             <!-- As questões serão inseridas aqui via JavaScript -->
@@ -118,8 +127,8 @@
     </div>
 
     <script>
-        // Lista de 50 questões sobre Naruto
-        const questions = [
+        // Lista completa de 50 questões sobre Naruto
+        const allQuestions = [
             {
                 question: "Qual é o nome do protagonista da série Naruto?",
                 options: ["Sasuke", "Naruto", "Kakashi", "Jiraiya"],
@@ -385,13 +394,31 @@
         // Variáveis do quiz
         let currentQuestion = 0;
         let score = 0;
-        const totalQuestions = questions.length;
+        let questions = [];
+        const totalQuestions = 50;
         const questionsContainer = document.getElementById('questionsContainer');
         const progressElement = document.querySelector('.progress');
         const quizContainer = document.getElementById('quizContainer');
         const successPage = document.getElementById('successPage');
+        const shuffleBtn = document.getElementById('shuffleBtn');
 
-        // Exibir a primeira questão
+        // Embaralhar as perguntas
+        function shuffleQuestions() {
+            // Cria uma cópia do array original
+            questions = [...allQuestions];
+            
+            // Embaralha o array usando o algoritmo Fisher-Yates
+            for (let i = questions.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [questions[i], questions[j]] = [questions[j], questions[i]];
+            }
+            
+            // Mostra a primeira questão
+            currentQuestion = 0;
+            showQuestion();
+        }
+
+        // Exibir a questão atual
         function showQuestion() {
             progressElement.textContent = `Questão ${currentQuestion + 1} de ${totalQuestions}`;
             
@@ -452,10 +479,11 @@
         }
 
         // Iniciar o quiz
-        showQuestion();
+        shuffleQuestions();
 
-        // Event listener para o botão de enviar
+        // Event listeners
         document.getElementById('submitBtn').addEventListener('click', checkAnswer);
+        shuffleBtn.addEventListener('click', shuffleQuestions);
     </script>
 </body>
 </html>
