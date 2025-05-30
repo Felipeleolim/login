@@ -3,251 +3,459 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro Mais Difícil do Mundo</title>
+    <title>Quiz Ultimate de Naruto</title>
     <style>
         body {
-            font-family: 'Comic Sans MS', cursive, sans-serif;
-            background-color: #000;
-            color: #0f0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            font-family: 'Arial', sans-serif;
+            background: url('naruto.jpeg') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
             margin: 0;
-            overflow: hidden;
+            padding: 0;
+            text-shadow: 1px 1px 2px #000;
         }
         .container {
-            background-color: #111;
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: rgba(0, 0, 0, 0.8);
             padding: 30px;
             border-radius: 10px;
-            box-shadow: 0 0 20px #0f0;
-            width: 400px;
-            position: relative;
-            animation: glitch 0.5s infinite;
-        }
-        @keyframes glitch {
-            0% { transform: translate(0); }
-            20% { transform: translate(-2px, 2px); }
-            40% { transform: translate(-2px, -2px); }
-            60% { transform: translate(2px, 2px); }
-            80% { transform: translate(2px, -2px); }
-            100% { transform: translate(0); }
+            border: 2px solid #FF5722;
+            box-shadow: 0 0 20px rgba(255, 87, 34, 0.5);
         }
         h1 {
             text-align: center;
+            color: #FF9800;
             margin-bottom: 30px;
-            text-shadow: 0 0 5px #0f0;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px #000;
         }
-        .form-group {
-            margin-bottom: 20px;
-            position: relative;
+        .question {
+            margin-bottom: 25px;
+            padding: 15px;
+            background-color: rgba(30, 30, 30, 0.7);
+            border-left: 4px solid #FF5722;
+            border-radius: 0 5px 5px 0;
+        }
+        .question-text {
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #FFC107;
+        }
+        .options {
+            margin-left: 20px;
+        }
+        .option {
+            margin-bottom: 10px;
+        }
+        input[type="radio"] {
+            margin-right: 10px;
         }
         label {
-            display: block;
-            margin-bottom: 5px;
-            font-size: 14px;
-        }
-        input, select {
-            width: 100%;
-            padding: 10px;
-            background-color: #222;
-            border: 1px solid #0f0;
-            color: #0f0;
-            border-radius: 5px;
+            cursor: pointer;
         }
         button {
-            background-color: #0f0;
-            color: #000;
+            background-color: #FF5722;
+            color: white;
             border: none;
-            padding: 12px;
-            width: 100%;
+            padding: 15px 30px;
+            font-size: 18px;
             border-radius: 5px;
             cursor: pointer;
-            font-weight: bold;
+            display: block;
+            margin: 30px auto;
             transition: all 0.3s;
+            font-weight: bold;
         }
         button:hover {
-            background-color: #0c0;
+            background-color: #E64A19;
+            transform: scale(1.05);
+            box-shadow: 0 0 15px #FF5722;
         }
-        .captcha {
-            display: flex;
-            justify-content: space-between;
+        .success-page {
+            display: none;
+            text-align: center;
+            padding: 50px;
+        }
+        .success-page h2 {
+            color: #FFC107;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+        }
+        .success-image {
+            max-width: 100%;
+            border-radius: 10px;
+            border: 5px solid #FF5722;
+            box-shadow: 0 0 30px #FF9800;
+            margin: 20px 0;
+        }
+        .progress {
+            text-align: center;
             margin-bottom: 20px;
-        }
-        .captcha-text {
-            font-family: 'Courier New', monospace;
-            font-size: 24px;
-            letter-spacing: 5px;
-            background: linear-gradient(90deg, #0f0, #f00, #00f);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            transform: rotate(-5deg);
-            padding: 10px;
-            border: 1px dashed #0f0;
-        }
-        .password-rules {
-            font-size: 12px;
-            margin-top: 5px;
-            color: #f00;
-        }
-        .matrix-rain {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            opacity: 0.3;
+            font-size: 1.2em;
+            color: #FFC107;
         }
     </style>
 </head>
 <body>
-    <canvas id="matrix" class="matrix-rain"></canvas>
-    
-    <div class="container">
-        <h1>CADASTRO ULTRA-SECURO</h1>
+    <div class="container" id="quizContainer">
+        <h1>QUIZ ULTIMATE DE NARUTO</h1>
+        <div class="progress">Questão 1 de 50</div>
         
-        <form id="registerForm">
-            <div class="form-group">
-                <label for="username">Nome de Usuário (não pode conter vogais):</label>
-                <input type="text" id="username" required pattern="^[^aeiouAEIOU]+$">
-            </div>
-            
-            <div class="form-group">
-                <label for="password">Senha (deve satisfazer TODAS as regras abaixo):</label>
-                <input type="password" id="password" required>
-                <div class="password-rules">
-                    • Mínimo 20 caracteres<br>
-                    • Pelo menos 3 letras maiúsculas<br>
-                    • Pelo menos 3 letras minúsculas<br>
-                    • Pelo menos 3 números<br>
-                    • Pelo menos 3 símbolos especiais<br>
-                    • Não pode conter sequências de 3+ caracteres consecutivos<br>
-                    • Deve conter pelo menos um emoji<br>
-                    • Não pode conter palavras de dicionário<br>
-                    • Deve ser um palíndromo (igual de trás para frente)
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <label for="confirmPassword">Confirme a Senha:</label>
-                <input type="password" id="confirmPassword" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="secretQuestion">Pergunta Secreta (responda com uma equação matemática):</label>
-                <input type="text" id="secretQuestion" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="birthdate">Data de Nascimento (deve ser um número primo no formato DD/MM/YYYY):</label>
-                <input type="text" id="birthdate" required placeholder="DD/MM/YYYY">
-            </div>
-            
-            <div class="form-group">
-                <label for="color">Cor favorita (em hexadecimal, que seja uma cor "segura para a web"):</label>
-                <input type="text" id="color" required placeholder="#RRGGBB">
-            </div>
-            
-            <div class="captcha">
-                <div class="captcha-text">7H3K9$PqW#</div>
-                <input type="text" id="captcha" required placeholder="Digite o código" style="width: 60%;">
-            </div>
-            
-            <div class="form-group">
-                <label for="timezone">Fuso Horário (selecione UTC+13.75):</label>
-                <select id="timezone" required>
-                    <option value="">Selecione...</option>
-                    <option value="-12">UTC-12</option>
-                    <option value="-11">UTC-11</option>
-                    <!-- ... muitas opções ... -->
-                    <option value="13.75">UTC+13.75</option>
-                    <!-- ... mais opções ... -->
-                </select>
-            </div>
-            
-            <div class="form-group">
-                <label>
-                    <input type="checkbox" id="terms" required>
-                    Concordo com os 1.247 termos de serviço (você deve memorizá-los)
-                </label>
-            </div>
-            
-            <button type="submit" id="submitBtn">Cadastrar (após 3 tentativas)</button>
-        </form>
+        <div id="questionsContainer">
+            <!-- As questões serão inseridas aqui via JavaScript -->
+        </div>
+        
+        <button id="submitBtn">ENVIAR RESPOSTAS</button>
+    </div>
+    
+    <div class="container success-page" id="successPage">
+        <h2>PARABÉNS, VERDADEIRO FÃ DE NARUTO!</h2>
+        <p>Você provou ser um verdadeiro especialista no mundo ninja!</p>
+        <img class="success-image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhZ2NBd9Ui5JxKnsxB0Vzd2LF30n3fqq2NSw&s" alt="Recompensa Naruto">
+        <p>Como recompensa, aqui está uma imagem especial para você!</p>
+        <button onclick="location.reload()">JOGAR NOVAMENTE</button>
     </div>
 
     <script>
-        // Efeito Matrix Rain
-        const canvas = document.getElementById('matrix');
-        const ctx = canvas.getContext('2d');
-        
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        
-        const katakana = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン';
-        const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        const nums = '0123456789';
-        const symbols = '!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~';
-        
-        const alphabet = katakana + latin + nums + symbols;
-        
-        const fontSize = 16;
-        const columns = canvas.width / fontSize;
-        
-        const rainDrops = [];
-        
-        for (let x = 0; x < columns; x++) {
-            rainDrops[x] = 1;
-        }
-        
-        const draw = () => {
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            ctx.fillStyle = '#0f0';
-            ctx.font = fontSize + 'px monospace';
-            
-            for (let i = 0; i < rainDrops.length; i++) {
-                const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
-                ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
-                
-                if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                    rainDrops[i] = 0;
-                }
-                rainDrops[i]++;
+        // Lista de 50 questões sobre Naruto
+        const questions = [
+            {
+                question: "Qual é o nome do protagonista da série Naruto?",
+                options: ["Sasuke", "Naruto", "Kakashi", "Jiraiya"],
+                answer: 1
+            },
+            {
+                question: "Qual é o nome da vila onde Naruto nasceu?",
+                options: ["Vila da Folha", "Vila da Areia", "Vila da Névoa", "Vila da Pedra"],
+                answer: 0
+            },
+            {
+                question: "Quem é o sensei do Time 7?",
+                options: ["Hiruzen Sarutobi", "Kakashi Hatake", "Might Guy", "Asuma Sarutobi"],
+                answer: 1
+            },
+            {
+                question: "Qual é o nome da técnica de clonagem usada por Naruto?",
+                options: ["Kage Bunshin no Jutsu", "Bunshin no Jutsu", "Tajuu Kage Bunshin no Jutsu", "Kawarimi no Jutsu"],
+                answer: 2
+            },
+            {
+                question: "Qual é o nome do bijuu selado dentro de Naruto?",
+                options: ["Shukaku", "Kurama", "Isobu", "Saiken"],
+                answer: 1
+            },
+            {
+                question: "Quem é o autor do mangá Naruto?",
+                options: ["Eiichiro Oda", "Masashi Kishimoto", "Tite Kubo", "Hiro Mashima"],
+                answer: 1
+            },
+            {
+                question: "Qual é o nome do pai de Naruto?",
+                options: ["Hiruzen Sarutobi", "Minato Namikaze", "Tobirama Senju", "Fugaku Uchiha"],
+                answer: 1
+            },
+            {
+                question: "Qual é o nome do time de Naruto no início da série?",
+                options: ["Time 7", "Time 8", "Time 9", "Time 10"],
+                answer: 0
+            },
+            {
+                question: "Qual é o nome do líder da Akatsuki que usa um Rinnegan?",
+                options: ["Itachi Uchiha", "Pain", "Obito Uchiha", "Madara Uchiha"],
+                answer: 1
+            },
+            {
+                question: "Qual é o nome do professor de Naruto que é um dos Sannin?",
+                options: ["Orochimaru", "Jiraiya", "Tsunade", "Hiruzen"],
+                answer: 1
+            },
+            {
+                question: "Qual é o nome do kekkei genkai do clã Hyuga?",
+                options: ["Sharingan", "Byakugan", "Rinnegan", "Tenseigan"],
+                answer: 1
+            },
+            {
+                question: "Qual é o nome da técnica final de Itachi Uchiha?",
+                options: ["Amaterasu", "Tsukuyomi", "Susanoo", "Izanami"],
+                answer: 2
+            },
+            {
+                question: "Quem se torna Hokage após Tsunade?",
+                options: ["Kakashi Hatake", "Naruto Uzumaki", "Shikamaru Nara", "Sasuke Uchiha"],
+                answer: 0
+            },
+            {
+                question: "Qual é o nome do sensei do Quarto Hokage?",
+                options: ["Jiraiya", "Orochimaru", "Tsunade", "Hiruzen"],
+                answer: 0
+            },
+            {
+                question: "Qual é o nome da técnica de invocação de Naruto?",
+                options: ["Kuchiyose no Jutsu", "Gamabunta Kuchiyose", "Gama Kuchiyose", "Edo Tensei"],
+                answer: 0
+            },
+            {
+                question: "Quantas caudas tem o bijuu Kurama?",
+                options: ["Uma", "Três", "Cinco", "Nove"],
+                answer: 3
+            },
+            {
+                question: "Qual é o nome do irmão mais velho de Sasuke?",
+                options: ["Shisui Uchiha", "Itachi Uchiha", "Madara Uchiha", "Obito Uchiha"],
+                answer: 1
+            },
+            {
+                question: "Qual é o nome do clã de Hinata?",
+                options: ["Uchiha", "Hyuga", "Uzumaki", "Senju"],
+                answer: 1
+            },
+            {
+                question: "Qual é o nome da técnica de regeneração de Tsunade?",
+                options: ["Byakugou no Jutsu", "Iryo Ninjutsu", "Souzo Saisei", "Kai"],
+                answer: 0
+            },
+            {
+                question: "Quem é o Segundo Hokage?",
+                options: ["Hashirama Senju", "Tobirama Senju", "Hiruzen Sarutobi", "Minato Namikaze"],
+                answer: 1
+            },
+            {
+                question: "Qual é o nome da espada de Zabuza Momochi?",
+                options: ["Samehada", "Kubikiribocho", "Hiramekarei", "Kiba"],
+                answer: 1
+            },
+            {
+                question: "Qual é o nome do sensei de Jiraiya, Tsunade e Orochimaru?",
+                options: ["Hashirama Senju", "Tobirama Senju", "Hiruzen Sarutobi", "Minato Namikaze"],
+                answer: 2
+            },
+            {
+                question: "Qual é o nome do bijuu de uma cauda?",
+                options: ["Matatabi", "Isobu", "Shukaku", "Kurama"],
+                answer: 2
+            },
+            {
+                question: "Qual é o nome do filme onde Naruto conhece seu pai?",
+                options: ["Road to Ninja", "The Last", "Boruto", "Blood Prison"],
+                answer: 0
+            },
+            {
+                question: "Qual é o nome do sensei de Rock Lee?",
+                options: ["Kakashi Hatake", "Might Guy", "Asuma Sarutobi", "Kurenai Yuhi"],
+                answer: 1
+            },
+            {
+                question: "Qual é o nome da técnica de Minato que o torna o 'Relâmpago Amarelo'?",
+                options: ["Hiraishin no Jutsu", "Rasengan", "Flying Thunder God", "Body Flicker"],
+                answer: 0
+            },
+            {
+                question: "Qual é o nome do clã de Shikamaru?",
+                options: ["Nara", "Yamanaka", "Akimichi", "Inuzuka"],
+                answer: 0
+            },
+            {
+                question: "Qual é o nome do bijuu de Gaara?",
+                options: ["Shukaku", "Matatabi", "Isobu", "Son Goku"],
+                answer: 0
+            },
+            {
+                question: "Qual é o nome da técnica de Sasuke que usa chidori?",
+                options: ["Chidori Nagashi", "Chidori Senbon", "Chidori Sharp Spear", "Chidori Current"],
+                answer: 2
+            },
+            {
+                question: "Qual é o nome da técnica secreta do clã Uzumaki?",
+                options: ["Fuinjutsu", "Uzumaki Chains", "Adamantine Sealing Chains", "Eight Trigrams Sealing Style"],
+                answer: 0
+            },
+            {
+                question: "Qual é o nome do líder da Vila da Areia durante o exame Chunin?",
+                options: ["Gaara", "Rasa", "Baki", "Yashamaru"],
+                answer: 1
+            },
+            {
+                question: "Qual é o nome da técnica de Sakura que destrói o chão?",
+                options: ["Cherry Blossom Impact", "Super Strength Jutsu", "Chakra Enhanced Strength", "Tsunade's Technique"],
+                answer: 0
+            },
+            {
+                question: "Qual é o nome do sensei de Naruto durante o treinamento do Rasenshuriken?",
+                options: ["Jiraiya", "Kakashi", "Yamato", "Tsunade"],
+                answer: 2
+            },
+            {
+                question: "Qual é o nome do bijuu de duas caudas?",
+                options: ["Matatabi", "Isobu", "Son Goku", "Kokuo"],
+                answer: 0
+            },
+            {
+                question: "Qual é o nome da técnica de Shikamaru que controla sombras?",
+                options: ["Kagemane no Jutsu", "Kage Shuriken", "Shadow Possession", "Shadow Stitch"],
+                answer: 0
+            },
+            {
+                question: "Qual é o nome do pai de Sasuke?",
+                options: ["Fugaku Uchiha", "Madara Uchiha", "Obito Uchiha", "Shisui Uchiha"],
+                answer: 0
+            },
+            {
+                question: "Qual é o nome da técnica de Kakashi que copia jutsu?",
+                options: ["Sharingan", "Copy Wheel Eye", "Eye of Insight", "Mangekyo Sharingan"],
+                answer: 0
+            },
+            {
+                question: "Qual é o nome do bijuu de três caudas?",
+                options: ["Isobu", "Son Goku", "Kokuo", "Saiken"],
+                answer: 0
+            },
+            {
+                question: "Qual é o nome do sensei de Naruto durante o treinamento do Rasengan?",
+                options: ["Jiraiya", "Kakashi", "Ebisu", "Tsunade"],
+                answer: 0
+            },
+            {
+                question: "Qual é o nome do bijuu de quatro caudas?",
+                options: ["Son Goku", "Kokuo", "Saiken", "Chomei"],
+                answer: 0
+            },
+            {
+                question: "Qual é o nome do bijuu de cinco caudas?",
+                options: ["Kokuo", "Saiken", "Chomei", "Gyuki"],
+                answer: 0
+            },
+            {
+                question: "Qual é o nome do bijuu de seis caudas?",
+                options: ["Saiken", "Chomei", "Gyuki", "Kurama"],
+                answer: 0
+            },
+            {
+                question: "Qual é o nome do bijuu de sete caudas?",
+                options: ["Chomei", "Gyuki", "Kurama", "Shukaku"],
+                answer: 0
+            },
+            {
+                question: "Qual é o nome do bijuu de oito caudas?",
+                options: ["Gyuki", "Kurama", "Shukaku", "Matatabi"],
+                answer: 0
+            },
+            {
+                question: "Qual é o nome do sensei de Naruto durante o treinamento do Modo Sábio?",
+                options: ["Jiraiya", "Fukasaku", "Gamakichi", "Gamabunta"],
+                answer: 1
+            },
+            {
+                question: "Qual é o nome da técnica de Madara que invoca um meteoro?",
+                options: ["Tengai Shinsei", "Susanoo", "Perfect Susanoo", "Meteor Summoning"],
+                answer: 0
+            },
+            {
+                question: "Qual é o nome do clã de Kiba?",
+                options: ["Inuzuka", "Aburame", "Hyuga", "Akimichi"],
+                answer: 0
+            },
+            {
+                question: "Qual é o nome do sensei de Naruto durante o treinamento do Chakra da Nuvem?",
+                options: ["Jiraiya", "Kakashi", "Yamato", "Tsunade"],
+                answer: 2
+            },
+            {
+                question: "Qual é o nome da técnica de Naruto que combina Rasengan com chakra elemental?",
+                options: ["Rasenshuriken", "Oodama Rasengan", "Planetary Rasengan", "Super Rasengan"],
+                answer: 0
+            },
+            {
+                question: "Qual é o nome da técnica de Sasuke que usa Amaterasu?",
+                options: ["Kagutsuchi", "Enton", "Blaze Release", "Inferno Style"],
+                answer: 1
+            },
+            {
+                question: "Qual é o nome do clã de Shino?",
+                options: ["Aburame", "Inuzuka", "Hyuga", "Nara"],
+                answer: 0
+            },
+            {
+                question: "Qual é o nome da técnica de Naruto que usa o chakra da Nuvem?",
+                options: ["Senjutsu", "Sage Mode", "Hermit Mode", "Toad Sage Mode"],
+                answer: 1
             }
-        };
-        
-        setInterval(draw, 30);
-        
-        // Validação do formulário
-        let attempts = 0;
-        const maxAttempts = 3;
-        
-        document.getElementById('registerForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            attempts++;
+        ];
+
+        // Variáveis do quiz
+        let currentQuestion = 0;
+        let score = 0;
+        const totalQuestions = questions.length;
+        const questionsContainer = document.getElementById('questionsContainer');
+        const progressElement = document.querySelector('.progress');
+        const quizContainer = document.getElementById('quizContainer');
+        const successPage = document.getElementById('successPage');
+
+        // Exibir a primeira questão
+        function showQuestion() {
+            progressElement.textContent = `Questão ${currentQuestion + 1} de ${totalQuestions}`;
             
-            if (attempts < maxAttempts) {
-                alert(`Você deve tentar ${maxAttempts} vezes antes de poder se cadastrar. Tentativa ${attempts} de ${maxAttempts}.`);
+            const question = questions[currentQuestion];
+            let questionHTML = `
+                <div class="question">
+                    <div class="question-text">${question.question}</div>
+                    <div class="options">
+            `;
+            
+            question.options.forEach((option, index) => {
+                questionHTML += `
+                    <div class="option">
+                        <input type="radio" name="answer" id="option${index}" value="${index}">
+                        <label for="option${index}">${option}</label>
+                    </div>
+                `;
+            });
+            
+            questionHTML += `</div></div>`;
+            questionsContainer.innerHTML = questionHTML;
+        }
+
+        // Verificar resposta e avançar
+        function checkAnswer() {
+            const selectedOption = document.querySelector('input[name="answer"]:checked');
+            
+            if (!selectedOption) {
+                alert('Por favor, selecione uma resposta!');
                 return;
             }
             
-            // Aqui viriam todas as validações extremamente complexas
-            alert('Parabéns! Seu cadastro foi submetido para análise. Levará de 3 a 5 semanas úteis para ser processado.');
-        });
-        
-        // Torna o formulário mais difícil após cada tentativa
-        setInterval(() => {
-            if (attempts > 0 && attempts < maxAttempts) {
-                const newRule = document.createElement('div');
-                newRule.className = 'password-rules';
-                newRule.innerHTML = `• Nova regra aleatória ${attempts}: ${['não pode conter a letra "e"', 'deve conter um hash SHA-1 válido', 'deve ser igual à senha do seu primeiro email'][attempts-1]}`;
-                document.querySelector('.password-rules').appendChild(newRule);
+            const answer = parseInt(selectedOption.value);
+            
+            if (answer === questions[currentQuestion].answer) {
+                score++;
             }
-        }, 1000);
+            
+            currentQuestion++;
+            
+            if (currentQuestion < totalQuestions) {
+                showQuestion();
+            } else {
+                finishQuiz();
+            }
+        }
+
+        // Finalizar o quiz
+        function finishQuiz() {
+            // Requer acerto de pelo menos 80% das questões (40/50)
+            if (score >= 40) {
+                quizContainer.style.display = 'none';
+                successPage.style.display = 'block';
+            } else {
+                alert(`Você acertou ${score} de ${totalQuestions} questões. Tente novamente para alcançar pelo menos 40 acertos!`);
+                location.reload();
+            }
+        }
+
+        // Iniciar o quiz
+        showQuestion();
+
+        // Event listener para o botão de enviar
+        document.getElementById('submitBtn').addEventListener('click', checkAnswer);
     </script>
 </body>
 </html>
