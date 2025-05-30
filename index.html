@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro Mais Difícil do Mundo</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background-color: #000;
+            color: #0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+        .container {
+            background-color: #111;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px #0f0;
+            width: 400px;
+            position: relative;
+            animation: glitch 0.5s infinite;
+        }
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            text-shadow: 0 0 5px #0f0;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            background-color: #222;
+            border: 1px solid #0f0;
+            color: #0f0;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #0f0;
+            color: #000;
+            border: none;
+            padding: 12px;
+            width: 100%;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        button:hover {
+            background-color: #0c0;
+        }
+        .captcha {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .captcha-text {
+            font-family: 'Courier New', monospace;
+            font-size: 24px;
+            letter-spacing: 5px;
+            background: linear-gradient(90deg, #0f0, #f00, #00f);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            transform: rotate(-5deg);
+            padding: 10px;
+            border: 1px dashed #0f0;
+        }
+        .password-rules {
+            font-size: 12px;
+            margin-top: 5px;
+            color: #f00;
+        }
+        .matrix-rain {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.3;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="matrix" class="matrix-rain"></canvas>
+    
+    <div class="container">
+        <h1>CADASTRO ULTRA-SECURO</h1>
+        
+        <form id="registerForm">
+            <div class="form-group">
+                <label for="username">Nome de Usuário (não pode conter vogais):</label>
+                <input type="text" id="username" required pattern="^[^aeiouAEIOU]+$">
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Senha (deve satisfazer TODAS as regras abaixo):</label>
+                <input type="password" id="password" required>
+                <div class="password-rules">
+                    • Mínimo 20 caracteres<br>
+                    • Pelo menos 3 letras maiúsculas<br>
+                    • Pelo menos 3 letras minúsculas<br>
+                    • Pelo menos 3 números<br>
+                    • Pelo menos 3 símbolos especiais<br>
+                    • Não pode conter sequências de 3+ caracteres consecutivos<br>
+                    • Deve conter pelo menos um emoji<br>
+                    • Não pode conter palavras de dicionário<br>
+                    • Deve ser um palíndromo (igual de trás para frente)
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="confirmPassword">Confirme a Senha:</label>
+                <input type="password" id="confirmPassword" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="secretQuestion">Pergunta Secreta (responda com uma equação matemática):</label>
+                <input type="text" id="secretQuestion" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="birthdate">Data de Nascimento (deve ser um número primo no formato DD/MM/YYYY):</label>
+                <input type="text" id="birthdate" required placeholder="DD/MM/YYYY">
+            </div>
+            
+            <div class="form-group">
+                <label for="color">Cor favorita (em hexadecimal, que seja uma cor "segura para a web"):</label>
+                <input type="text" id="color" required placeholder="#RRGGBB">
+            </div>
+            
+            <div class="captcha">
+                <div class="captcha-text">7H3K9$PqW#</div>
+                <input type="text" id="captcha" required placeholder="Digite o código" style="width: 60%;">
+            </div>
+            
+            <div class="form-group">
+                <label for="timezone">Fuso Horário (selecione UTC+13.75):</label>
+                <select id="timezone" required>
+                    <option value="">Selecione...</option>
+                    <option value="-12">UTC-12</option>
+                    <option value="-11">UTC-11</option>
+                    <!-- ... muitas opções ... -->
+                    <option value="13.75">UTC+13.75</option>
+                    <!-- ... mais opções ... -->
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" id="terms" required>
+                    Concordo com os 1.247 termos de serviço (você deve memorizá-los)
+                </label>
+            </div>
+            
+            <button type="submit" id="submitBtn">Cadastrar (após 3 tentativas)</button>
+        </form>
+    </div>
+
+    <script>
+        // Efeito Matrix Rain
+        const canvas = document.getElementById('matrix');
+        const ctx = canvas.getContext('2d');
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        const katakana = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン';
+        const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const nums = '0123456789';
+        const symbols = '!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~';
+        
+        const alphabet = katakana + latin + nums + symbols;
+        
+        const fontSize = 16;
+        const columns = canvas.width / fontSize;
+        
+        const rainDrops = [];
+        
+        for (let x = 0; x < columns; x++) {
+            rainDrops[x] = 1;
+        }
+        
+        const draw = () => {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = '#0f0';
+            ctx.font = fontSize + 'px monospace';
+            
+            for (let i = 0; i < rainDrops.length; i++) {
+                const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+                ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
+                
+                if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    rainDrops[i] = 0;
+                }
+                rainDrops[i]++;
+            }
+        };
+        
+        setInterval(draw, 30);
+        
+        // Validação do formulário
+        let attempts = 0;
+        const maxAttempts = 3;
+        
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            attempts++;
+            
+            if (attempts < maxAttempts) {
+                alert(`Você deve tentar ${maxAttempts} vezes antes de poder se cadastrar. Tentativa ${attempts} de ${maxAttempts}.`);
+                return;
+            }
+            
+            // Aqui viriam todas as validações extremamente complexas
+            alert('Parabéns! Seu cadastro foi submetido para análise. Levará de 3 a 5 semanas úteis para ser processado.');
+        });
+        
+        // Torna o formulário mais difícil após cada tentativa
+        setInterval(() => {
+            if (attempts > 0 && attempts < maxAttempts) {
+                const newRule = document.createElement('div');
+                newRule.className = 'password-rules';
+                newRule.innerHTML = `• Nova regra aleatória ${attempts}: ${['não pode conter a letra "e"', 'deve conter um hash SHA-1 válido', 'deve ser igual à senha do seu primeiro email'][attempts-1]}`;
+                document.querySelector('.password-rules').appendChild(newRule);
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
